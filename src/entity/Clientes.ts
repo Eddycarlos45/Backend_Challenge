@@ -1,4 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsDate } from 'class-validator'
+import { IsNotBlank } from '../utils/validators'
 
 @Entity()
 export class Clientes {
@@ -7,18 +9,21 @@ export class Clientes {
     id: number;
 
     @Column("varchar", { length: 100 })
+    @IsNotBlank('', { message: 'Nome não pode ser nulo' })
     nome_completo: string;
 
     @Column("varchar", { length: 10 })
     sexo: string;
 
     @Column()
+    @IsDate()
     data_de_nascimento: Date;
 
     @Column("varchar", { length: 3 })
     idade: string;
 
     @Column("varchar", { length: 30 })
+    @IsNotBlank('', { message: 'Cidade não pode ser nulo' })
     cidade: string;
 
     @CreateDateColumn()
