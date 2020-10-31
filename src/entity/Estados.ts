@@ -1,20 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { IsNotBlank } from '../utils/validators'
-import { Estados } from "./Estados";
+import { Cidades } from "./Cidades";
 
 @Entity()
-export class Cidades {
+export class Estados {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @Column('char', { length: 2 })
+    sigla: string
 
     @Column("varchar", { length: 100 })
     @IsNotBlank('', { message: 'Nome da cidade não pode ser nulo' })
     nome: string;
 
-    @IsNotBlank('', { message: 'Estado não pode ser nulo' })
-    @ManyToOne(() => Estados, estado => estado.cidades)
-    estado: Estados;
+    @OneToMany(() => Cidades, cidade => cidade.estado)
+    cidades: Cidades[];
 
     @CreateDateColumn()
     created_at: Date;
