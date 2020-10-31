@@ -1,13 +1,13 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
 
-import { addCliente, getCliente, getClientes, updateCliente } from '../controller/ClienteController'
+import { addCliente, getCliente, getClientes, updateCliente, removeCliente } from '../controller/ClienteController'
 
-const routes = Router()
+const clienteRouter = Router()
 
-routes.get('/clientes', getClientes)
-routes.post('/clientes', addCliente)
-routes.get('/clientes/:index', getCliente)
-routes.get('/clientes/:nome', getCliente)
-routes.put('/clientes/:id', updateCliente)
+clienteRouter.get('/', getClientes)
+clienteRouter.post('/', addCliente)
+clienteRouter.get('/:index', getCliente)
+clienteRouter.put('/:id', updateCliente)
+clienteRouter.delete('/:id', removeCliente)
 
-export default routes
+export default clienteRouter

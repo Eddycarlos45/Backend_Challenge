@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { createConnection } from 'typeorm'
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import routes from "./router/cliente_routes";
+import routes from "./router/routes";
 
 const app = express()
 

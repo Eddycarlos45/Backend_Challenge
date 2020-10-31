@@ -62,10 +62,26 @@ export const updateCliente = async (request: Request, response: Response) => {
 
         if (cliente.affected === 1) {
             const clienteUpdated = await getRepository(Clientes).findOne(id)
-            return response.json(clienteUpdated)
+            return response.status(200).json('Cliente com id:' + id + ' atualizado com sucesso')
         }
         return response.status(404).json({ message: "Cliente não encontrado" })
     } catch (err) {
         return response.status(400).json(err)
+    }
+}
+
+export const removeCliente = async (request: Request, response: Response) => {
+    const { id } = request.params
+    try {
+        const cliente = await getRepository(Clientes).delete(id)
+
+        if (cliente.affected === 1) {
+            const clienteDeleted = await getRepository(Clientes).findOne(id)
+            return response.status(200).json('Cliente com id:' + id + ' deletado com sucesso')
+        }
+        return response.status(404).json({ message: "Cliente não encontrado" })
+
+    } catch (err) {
+        return response.status(400).json({ error: err })
     }
 }
