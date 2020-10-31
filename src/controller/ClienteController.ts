@@ -46,9 +46,9 @@ export const addCliente = async (request: Request, response: Response) => {
 }
 
 export const getCliente = async (request: Request, response: Response) => {
-    const { index } = request.params
+    const { id } = request.params
     try {
-        const cliente = await getRepository(Clientes).findOne(index)
+        const cliente = await getRepository(Clientes).findOne(id)
         return response.status(200).json(cliente)
     } catch (err) {
         return response.status(400).json({ error: err })
