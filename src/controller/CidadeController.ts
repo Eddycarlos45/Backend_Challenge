@@ -46,7 +46,7 @@ export const getCidadesPorEstado = async (request: Request, response: Response) 
     const { estado } = request.params
 
     try {
-        await getRepository(Estados).find({ relations: ["cidades"] })
+        await getRepository(Estados).find({ relations: ["cidades"], where: { nome: estado } })
             .then(cidades => {
                 if (cidades.length === 0) {
                     return response.status(404).json({ message: "Estado não encontrado" })
