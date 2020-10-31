@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm'
 import { Clientes } from '../entity/Clientes'
 import { Request, Response } from 'express'
 import { validate } from 'class-validator'
+import { buscaCidade } from '../services/CidadesService'
 
 export const getClientes = async (request: Request, response: Response) => {
     try {
@@ -15,6 +16,7 @@ export const getClientes = async (request: Request, response: Response) => {
 
 export const addCliente = async (request: Request, response: Response) => {
     const { nome_completo, sexo, data_de_nascimento, idade, cidade } = request.body
+
     const cliente = getRepository(Clientes).create({
         nome_completo,
         sexo,
@@ -29,12 +31,18 @@ export const addCliente = async (request: Request, response: Response) => {
             console.log('validation succeed');
         }
     });
-    try {
-        const cliente = await getRepository(Clientes).save(request.body)
-        return response.status(201).json(cliente)
-    } catch (err) {
-        return response.status(400).json({ error: err })
-    }
+
+    await buscaCidade(cidade)
+        .then(isValid => {
+            if (isValid == false)
+                return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
+            try {
+                getRepository(Clientes).save(cliente)
+                return response.status(201).json(cliente)
+            } catch (err) {
+                return response.status(500).json({ error: err })
+            }
+        })
 }
 
 export const getCliente = async (request: Request, response: Response) => {

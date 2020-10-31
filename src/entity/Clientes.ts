@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { IsDate } from 'class-validator'
 import { IsNotBlank } from '../utils/validators'
 
 @Entity()
@@ -16,7 +15,6 @@ export class Clientes {
     sexo: string;
 
     @Column()
-    @IsDate()
     data_de_nascimento: Date;
 
     @Column("varchar", { length: 3 })
