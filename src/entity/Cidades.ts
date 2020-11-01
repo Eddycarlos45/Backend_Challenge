@@ -1,5 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import { IsNumber, IsPositive } from "class-validator";
 import { IsNotBlank } from '../utils/validators'
+import { Clientes } from "./Clientes";
 import { Estados } from "./Estados";
 
 @Entity()
@@ -12,7 +14,8 @@ export class Cidades {
     @IsNotBlank('', { message: 'Nome da cidade não pode ser nulo' })
     nome: string;
 
-    @IsNotBlank('', { message: 'Estado não pode ser nulo' })
+    @IsNumber()
+    @IsPositive()
     @ManyToOne(() => Estados, estado => estado.cidades)
     estado: Estados;
 
@@ -21,4 +24,8 @@ export class Cidades {
 
     @UpdateDateColumn()
     update_at: Date;
+
+    @OneToMany(() => Clientes, clientes => clientes.cidade)
+    clientes: Clientes
+
 }

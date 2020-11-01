@@ -3,6 +3,7 @@ import { Response, Request } from 'express'
 import { Cidades } from "../entity/Cidades";
 import { validate } from "class-validator"
 import { Estados } from '../entity/Estados';
+import { buscaCidade } from '../services/CidadesService'
 
 export const addCidade = async (request: Request, response: Response) => {
     const { nome, estado } = request.body
@@ -18,12 +19,17 @@ export const addCidade = async (request: Request, response: Response) => {
                 return response.status(400).json(errors)
         })
 
-    try {
-        await getRepository(Cidades).save(cidade)
-        return response.status(201).json(cidade)
-    } catch (err) {
-        return response.status(500).json({ error: err })
-    }
+        await buscaCidade(nome)
+        .then(isValid => {
+            if (isValid == false)
+                return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
+            try {
+                getRepository(Cidades).save(cidade)
+                return response.status(201).json(cidade)
+            } catch (err) {
+                return response.status(500).json({ error: err })
+            }
+        })
 }
 
 export const getCidade = async (request: Request, response: Response) => {
