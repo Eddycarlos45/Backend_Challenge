@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm'
 import { Clientes } from '../entity/Clientes'
 import { Request, Response } from 'express'
 import { validate } from 'class-validator'
+import { calculaIdade } from '../utils/validators'
 
 export const getClientes = async (request: Request, response: Response) => {
     try {
@@ -23,19 +24,24 @@ export const addCliente = async (request: Request, response: Response) => {
         idade,
         cidade
     })
-    await validate(cliente).then(errors => {
-        if (errors.length > 0) return response.status(400).json(errors)
-        console.log('validation succeed');
 
-        try {
-            getRepository(Clientes).save(cliente)
-            return response.status(201).json(cliente)
-        } catch (err) {
-            return response.status(500).json({ error: err })
-        }
+    const age = calculaIdade(cliente.data_de_nascimento)
+    if (age === parseInt(idade)) {
 
-    });
+        await validate(cliente).then(errors => {
+            if (errors.length > 0) return response.status(400).json(errors)
+            console.log('validation succeed');
 
+            try {
+                getRepository(Clientes).save(cliente)
+                return response.status(201).json(cliente)
+            } catch (err) {
+                return response.status(500).json({ error: err })
+            }
+        });
+    } else {
+        return response.status(400).json({ message: 'Data de nascimento ou idade inválidos' })
+    }
 }
 
 export const getCliente = async (request: Request, response: Response) => {
@@ -60,7 +66,7 @@ export const updateCliente = async (request: Request, response: Response) => {
 
         if (cliente.affected === 1) {
             const clienteUpdated = await getRepository(Clientes).findOne(id)
-            return response.status(200).json('Cliente com id:' + id + ' atualizado com sucesso')
+            return response.status(200).json({ message: 'Cliente com id:' + id + ' atualizado com sucesso' })
         }
         return response.status(404).json({ message: "Cliente não encontrado" })
     } catch (err) {
@@ -75,7 +81,7 @@ export const removeCliente = async (request: Request, response: Response) => {
 
         if (cliente.affected === 1) {
             const clienteDeleted = await getRepository(Clientes).findOne(id)
-            return response.status(200).json('Cliente com id:' + id + ' deletado com sucesso')
+            return response.status(200).json({ message: 'Cliente com id:' + id + ' deletado com sucesso' })
         }
         return response.status(404).json({ message: "Cliente não encontrado" })
 
