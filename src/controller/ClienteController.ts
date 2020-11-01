@@ -42,7 +42,12 @@ export const getCliente = async (request: Request, response: Response) => {
     const { index } = request.params
     try {
         const cliente = await getRepository(Clientes).query(`SELECT * FROM CLIENTES WHERE id='${index}' OR nome_completo='${index}'`)
-        return response.status(200).json(cliente)
+            .then(cliente => {
+                if (cliente.length === 0) {
+                    return response.status(404).json({ message: "Cliente não encontrada" })
+                }
+                return response.status(200).json(cliente)
+            })
     } catch (err) {
         return response.status(400).json({ error: err })
     }
