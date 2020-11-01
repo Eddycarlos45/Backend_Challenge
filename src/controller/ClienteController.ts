@@ -26,7 +26,7 @@ export const addCliente = async (request: Request, response: Response) => {
     await validate(cliente).then(errors => {
         if (errors.length > 0) return response.status(400).json(errors)
         console.log('validation succeed');
-        
+
         try {
             getRepository(Clientes).save(cliente)
             return response.status(201).json(cliente)
@@ -39,9 +39,9 @@ export const addCliente = async (request: Request, response: Response) => {
 }
 
 export const getCliente = async (request: Request, response: Response) => {
-    const { id } = request.params
+    const { index } = request.params
     try {
-        const cliente = await getRepository(Clientes).findOne(id)
+        const cliente = await getRepository(Clientes).query(`SELECT * FROM CLIENTES WHERE id='${index}' OR nome_completo='${index}'`)
         return response.status(200).json(cliente)
     } catch (err) {
         return response.status(400).json({ error: err })

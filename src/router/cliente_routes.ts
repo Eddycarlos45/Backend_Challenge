@@ -6,7 +6,7 @@ const clienteRouter = Router()
 
 clienteRouter.get('/', getClientes)
 clienteRouter.post('/', addCliente)
-clienteRouter.get('/:id', getCliente)
+clienteRouter.get('/:index', getCliente)
 clienteRouter.put('/:id', updateCliente)
 clienteRouter.delete('/:id', removeCliente)
 
