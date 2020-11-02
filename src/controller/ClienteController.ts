@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm'
 import { Clientes } from '../entity/Clientes'
 import { Request, Response } from 'express'
 import { validate } from 'class-validator'
-import { calculaIdade } from '../utils/validators'
+import { calculateAge, validateName } from '../utils/validators'
 
 export const getClientes = async (request: Request, response: Response) => {
     try {
@@ -24,8 +24,12 @@ export const addCliente = async (request: Request, response: Response) => {
         idade,
         cidade
     })
+    const name = validateName(nome_completo)
+    if (name === false) {
+        return response.status(400).json({ message: 'Digite seu nome completo' })
+    }
 
-    const age = calculaIdade(cliente.data_de_nascimento)
+    const age = calculateAge(cliente.data_de_nascimento)
     if (age === parseInt(idade)) {
 
         await validate(cliente).then(errors => {
@@ -89,3 +93,4 @@ export const removeCliente = async (request: Request, response: Response) => {
         return response.status(400).json({ error: err })
     }
 }
+

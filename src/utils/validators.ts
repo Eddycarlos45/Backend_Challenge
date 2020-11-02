@@ -17,7 +17,7 @@ export function IsNotBlank(property: string, validationOptions?: ValidationOptio
     };
 }
 
-export function calculaIdade(dateString) {
+export function calculateAge(dateString) {
     var today = new Date();
     var birthDate = new Date(dateString);
     var age = today.getFullYear() - birthDate.getFullYear();
@@ -26,4 +26,8 @@ export function calculaIdade(dateString) {
         age--;
     }
     return age;
+}
+
+export function validateName(name) {
+    return !!name.match(/\w+\s+\w/);
 }
