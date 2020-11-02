@@ -1,13 +1,5 @@
-import "reflect-metadata";
 import { createConnection } from 'typeorm'
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import routes from "./router/routes";
-
-const app = express()
-
-app.use(bodyParser.json())
-app.use(routes)
+import  app from '../src/config/custom_express'
 
 createConnection()
     .then(() => {
