@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm'
+import { getRepository, getConnection } from 'typeorm'
 import { Response, Request } from 'express'
 import { Cidades } from "../entity/Cidades";
 import { validate } from "class-validator"
@@ -53,7 +53,7 @@ export const getCidadesPorEstado = async (request: Request, response: Response) 
 
     try {
         await getRepository(Estados).find({
-            relations: ["cidades"], 
+            relations: ["cidades"],
             where: { nome: estado },
             cache: {
                 id: 'cidades',
@@ -67,6 +67,29 @@ export const getCidadesPorEstado = async (request: Request, response: Response) 
                 return response.status(200).json(cidades)
             })
     } catch (err) {
+        return response.status(400).json({ error: err })
+    }
+}
+
+export const removeCidade = async (request: Request, response: Response) => {
+    const { id } = request.params
+    const connection = getConnection();
+    try {
+        const cidade = await getRepository(Cidades).delete(id)
+
+        if (cidade.affected === 1) {
+            const cidadeDeleted = await getRepository(Cidades).findOne(id)
+
+            await connection.queryResultCache.remove(["cidades"]);
+
+            return response.status(200).json({ message: 'Cidade com id:' + id + ' deletada com sucesso' })
+        }
+        return response.status(404).json({ message: "Cidade não encontrada" })
+
+    } catch (err) {
+        if (err.sqlState === "23000") {
+            return response.status(400).json({ error: "Existem clientes vinculados a essa cidade" })
+        }
         return response.status(400).json({ error: err })
     }
 }
