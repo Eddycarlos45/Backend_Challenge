@@ -6,7 +6,7 @@ const cityRouter = Router()
 
 cityRouter.post('/', addCity)
 cityRouter.get('/:nome', getCity)
-cityRouter.get('/estado/:estado', getCitiesByState)
+cityRouter.get('/estado/:nome', getCitiesByState)
 cityRouter.delete('/:id', removeCity)
 
 export default cityRouter

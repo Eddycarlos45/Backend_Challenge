@@ -55,12 +55,12 @@ export const getCity = async (request: Request, response: Response) => {
 }
 
 export const getCitiesByState = async (request: Request, response: Response) => {
-    const { estado } = request.params
+    const { nome } = request.params
 
     try {
         await getRepository(States).find({
             relations: ["cities"],
-            where: { name: estado },
+            where: { name: nome },
             cache: {
                 id: 'cities',
                 milliseconds: 60000
