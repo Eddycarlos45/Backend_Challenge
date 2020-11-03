@@ -121,3 +121,18 @@ export const removeCostumer = async (request: Request, response: Response) => {
     }
 }
 
+export const getCostumersByCities = async (request: Request, response: Response) => {
+
+    try {
+        const costumer = await getRepository(Costumers).query(`
+        SELECT c.fullname AS cliente, d.name AS cidade
+        FROM costumers c
+        INNER JOIN cities d
+        ON c.cityId = d.id;`)
+            .then(costumer => {
+                return response.status(200).json(costumer)
+            })
+    } catch (err) {
+        return response.status(400).json({ error: err })
+    }
+}
