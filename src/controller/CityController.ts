@@ -21,7 +21,6 @@ export const addCity = async (request: Request, response: Response) => {
 
     await searchCity(name)
         .then(isValid => {
-            console.log(isValid)
             if (isValid == false)
                 return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
             try {
@@ -95,5 +94,27 @@ export const removeCity = async (request: Request, response: Response) => {
 
     } catch (err) {
         return response.status(400).json({ error: err })
+    }
+}
+
+export const updateCity = async (request: Request, response: Response) => {
+    const { id } = request.params
+    const { name } = request.body
+
+    await searchCity(name)
+        .then(isValid => {
+            if (isValid == false)
+                return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
+        })
+    try {
+        const costumer = await getRepository(Cities).update(id, request.body)
+
+        if (costumer.affected === 1) {
+            const costumerUpdated = await getRepository(Cities).findOne(id)
+            return response.status(200).json({ message: 'Cidade com id:' + id + ' atualizada com sucesso' })
+        }
+        return response.status(404).json({ message: "Cidade não encontrada" })
+    } catch (err) {
+        return response.status(400).json(err)
     }
 }
