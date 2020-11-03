@@ -21,6 +21,7 @@ export const addCity = async (request: Request, response: Response) => {
 
     await searchCity(name)
         .then(isValid => {
+            console.log(isValid)
             if (isValid == false)
                 return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
             try {

@@ -15,7 +15,6 @@ export function load() {
                     })
                     getRepository(States).save(state)
                 })
-                return resolve(res.data)
             })
     }).catch(erro => { console.log(erro) })
 }
