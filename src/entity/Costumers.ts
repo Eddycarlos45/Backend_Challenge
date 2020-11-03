@@ -1,31 +1,31 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { IsNotBlank } from '../utils/validators'
-import { Cidades } from './Cidades';
+import { Cities } from './Cities';
 import { IsPositive, IsNumber } from 'class-validator'
 
 @Entity()
-export class Clientes {
+export class Costumers {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column("varchar", { length: 100 })
     @IsNotBlank('', { message: 'Nome não pode ser nulo' })
-    nome_completo: string;
+    fullname: string;
 
     @Column("varchar", { length: 10 })
-    sexo: string;
+    gender: string;
 
     @Column()
-    data_de_nascimento: Date;
+    birthday: Date;
 
     @Column("varchar", { length: 3 })
-    idade: string;
+    age: string;
 
     @IsNumber()
     @IsPositive()
-    @ManyToOne(() => Cidades, cidades => cidades.clientes)
-    cidade: Cidades;
+    @ManyToOne(() => Cities, cities => cities.costumers)
+    city: Cities;
 
     @CreateDateColumn()
     created_at: Date;

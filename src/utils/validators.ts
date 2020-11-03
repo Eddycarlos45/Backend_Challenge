@@ -1,5 +1,6 @@
 import { registerDecorator, ValidationOptions } from "class-validator";
 
+
 export function IsNotBlank(property: string, validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
@@ -28,6 +29,6 @@ export function calculateAge(dateString) {
     return age;
 }
 
-export function validateName(name) {
+export function validateName(name: string) {
     return !!name.match(/\w+\s+\w/);
 }

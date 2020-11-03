@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export function buscaCidade(cidade: string) {
+export function searchCity(city: string) {
     return new Promise((resolve) => {
         axios
-            .get('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/' + cidade)
+            .get('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/' + city)
             .then(res => {
                 if (isEmpty(res.data)) {
                     return resolve(false)
