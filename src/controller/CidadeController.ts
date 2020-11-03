@@ -87,9 +87,6 @@ export const removeCidade = async (request: Request, response: Response) => {
         return response.status(404).json({ message: "Cidade não encontrada" })
 
     } catch (err) {
-        if (err.sqlState === "23000") {
-            return response.status(400).json({ error: "Existem clientes vinculados a essa cidade" })
-        }
         return response.status(400).json({ error: err })
     }
 }
