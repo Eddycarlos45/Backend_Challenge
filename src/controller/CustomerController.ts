@@ -76,16 +76,28 @@ export const getCostumer = async (request: Request, response: Response) => {
 
 export const updateCostumer = async (request: Request, response: Response) => {
     const { id } = request.params
-    try {
-        const costumer = await getRepository(Costumers).update(id, request.body)
+    const { birthday, age, fullname } = request.body
 
-        if (costumer.affected === 1) {
-            const costumerUpdated = await getRepository(Costumers).findOne(id)
-            return response.status(200).json({ message: 'Cliente com id:' + id + ' atualizado com sucesso' })
+    const isValid = validateName(fullname)
+    if (isValid === false) {
+        return response.status(400).json({ message: 'Digite seu nome completo' })
+    }
+
+    const ageIsTrue = calculateAge(birthday)
+    if (ageIsTrue === parseInt(age)) {
+        try {
+            const costumer = await getRepository(Costumers).update(id, request.body)
+
+            if (costumer.affected === 1) {
+                const costumerUpdated = await getRepository(Costumers).findOne(id)
+                return response.status(200).json({ message: 'Cliente com id:' + id + ' atualizado com sucesso' })
+            }
+            return response.status(404).json({ message: "Cliente não encontrado(a)" })
+        } catch (err) {
+            return response.status(400).json(err)
         }
-        return response.status(404).json({ message: "Cliente não encontrado(a)" })
-    } catch (err) {
-        return response.status(400).json(err)
+    } else {
+        return response.status(400).json({ message: 'Data de nascimento ou idade inválidos' })
     }
 }
 
