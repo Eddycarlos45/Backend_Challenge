@@ -25,7 +25,13 @@ export const addCity = async (request: Request, response: Response) => {
                 return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
             try {
                 getRepository(Cities).save(city)
-                return response.status(201).json(city)
+                    .then(() => {
+                        return response.status(201).json(city)
+                    })
+                    .catch(err => {
+                        if (err.sqlState === '23000') return response.status(400).json({ message: 'Id do estado não existe', error: err })
+                        return response.status(400).json({ error: err })
+                    })
             } catch (err) {
                 return response.status(500).json({ error: err })
             }

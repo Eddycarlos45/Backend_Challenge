@@ -48,6 +48,7 @@ export const addCostumer = async (request: Request, response: Response) => {
                     })
                     .catch(err => {
                         if (err.sqlState === '23000') return response.status(400).json({ message: 'Id da cidade não existe', error: err })
+                        return response.status(400).json({ error: err })
                     })
             } catch (err) {
                 return response.status(500).json({ error: err })
