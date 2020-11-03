@@ -19,7 +19,7 @@ export const addCidade = async (request: Request, response: Response) => {
                 return response.status(400).json(errors)
         })
 
-        await buscaCidade(nome)
+    await buscaCidade(nome)
         .then(isValid => {
             if (isValid == false)
                 return response.status(400).json({ message: 'Digite uma cidade válida, por favor!' })
@@ -52,7 +52,14 @@ export const getCidadesPorEstado = async (request: Request, response: Response) 
     const { estado } = request.params
 
     try {
-        await getRepository(Estados).find({ relations: ["cidades"], where: { nome: estado } })
+        await getRepository(Estados).find({
+            relations: ["cidades"], 
+            where: { nome: estado },
+            cache: {
+                id: 'cidades',
+                milliseconds: 60000
+            }
+        })
             .then(cidades => {
                 if (cidades.length === 0) {
                     return response.status(404).json({ message: "Estado não encontrado" })

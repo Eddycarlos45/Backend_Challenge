@@ -6,6 +6,7 @@
    "password": "admin",
    "database": "desafio_back",
    "synchronize": true,
+   "cache": true,
    "logging": false,
    "entities": [
       "src/entity/**/*.ts"

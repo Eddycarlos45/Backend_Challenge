@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm'
+import { getRepository, getConnection } from 'typeorm'
 import { Clientes } from '../entity/Clientes'
 import { Request, Response } from 'express'
 import { validate } from 'class-validator'
@@ -6,7 +6,12 @@ import { calculateAge, validateName } from '../utils/validators'
 
 export const getClientes = async (request: Request, response: Response) => {
     try {
-        const clientes = await getRepository(Clientes).find()
+        const clientes = await getRepository(Clientes).find({
+            cache: {
+                id: 'clientes',
+                milliseconds: 60000
+            }
+        })
         return response.status(200).json(clientes)
     } catch (err) {
         console.log("erro: ", err.message)
@@ -80,11 +85,15 @@ export const updateCliente = async (request: Request, response: Response) => {
 
 export const removeCliente = async (request: Request, response: Response) => {
     const { id } = request.params
+    const connection = getConnection();
     try {
         const cliente = await getRepository(Clientes).delete(id)
 
         if (cliente.affected === 1) {
             const clienteDeleted = await getRepository(Clientes).findOne(id)
+
+            await connection.queryResultCache.remove(["clientes"]);
+
             return response.status(200).json({ message: 'Cliente com id:' + id + ' deletado com sucesso' })
         }
         return response.status(404).json({ message: "Cliente não encontrado" })
