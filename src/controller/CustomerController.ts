@@ -43,7 +43,12 @@ export const addCostumer = async (request: Request, response: Response) => {
 
             try {
                 getRepository(Costumers).save(costumer)
-                return response.status(201).json(costumer)
+                    .then(() => {
+                        return response.status(201).json(costumer)
+                    })
+                    .catch(err => {
+                        if (err.sqlState === '23000') return response.status(400).json({ message: 'Id da cidade não existe', error: err })
+                    })
             } catch (err) {
                 return response.status(500).json({ error: err })
             }
