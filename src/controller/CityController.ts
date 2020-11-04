@@ -54,6 +54,18 @@ export const getCity = async (request: Request, response: Response) => {
     }
 }
 
+export const getCities = async (request: Request, response: Response) => {
+
+    try {
+        await getRepository(Cities).find()
+            .then(cities => {
+                return response.status(200).json(cities)
+            })
+    } catch (err) {
+        return response.status(400).json({ error: err })
+    }
+}
+
 export const getCitiesByState = async (request: Request, response: Response) => {
     const { nome } = request.params
 
