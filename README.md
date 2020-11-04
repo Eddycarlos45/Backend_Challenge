@@ -59,10 +59,10 @@ JSON {
 
 Rotas de `estados` ( /estados ) < br/>
 
-- GET: '/', Consulta todos os estados
+- GET: '/', Consulta todos os estados < br/>
 exemplo: `http://localhost:3000/estados/`
 
-- GET '/load' Busca os estados em uma API externa e cadastra no sistema
+- GET '/load' Busca os estados em uma API externa e cadastra no sistema < br/>
 exemplo: `http://localhost:3000/cidades/load`
  
  - Modelagem do Banco
