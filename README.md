@@ -7,13 +7,13 @@ Steps to run this project:
 3. Run `npm start` command
 
 END POINTS
-Rotas de `clientes`(/clientes):
+Rotas de `clientes`( /clientes ):
 
  - GET:  '/' Consulta todos os clientes <br />
  exemplo: `http://localhost:3000/clientes`
  
   - GET: '/search/:index', Consulta cliente pelo nome ou id <br />
-exemplo: `http://localhost:3000/clientes/search/{fullname/id}`
+exemplo: `http://localhost:3000/clientes/search/{João Paulo / 10}`
 
 - GET: '/relation', Exibe relação de clientes e cidades <br />
 exemplo: `http://localhost:3000/relation`
@@ -35,6 +35,30 @@ JSON {
  
  - DELETE: '/:id',  Remove um cliente <br />
  exemplo: `http://localhost:3000/clientes/{id}`
+ 
+ Rotas de `cidades` ( /cidades )
+ 
+ - GET: '/:nome', Consulta uma cidade pelo nome <br />
+ exemplo: `http://localhost:3000/cidades/Leme`
+ 
+ - GET '/estado/:nome', Consulta todas as cidades relacionadas a um estado <br />
+ exemplo: `http://localhost:3000/cidades/estado/São Paulo`
+ 
+ - DELETE '/:id', Remove uma cidade <br />
+ exemplo:  `http://localhost:3000/cidades/{id}`
+ 
+ - PUT '/:id', Atualiza os dados de uma cidade <br />
+ exemplo: `http://localhost:3000/cidades/{id}`
+ JSON {
+    "name": "São Paulo",
+    "state": 1
+}
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
