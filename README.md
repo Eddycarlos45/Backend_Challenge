@@ -65,8 +65,10 @@ exemplo: `http://localhost:3000/estados/`
 - GET '/load' Busca os estados em uma API externa e cadastra no sistema
 exemplo: `http://localhost:3000/cidades/load`
  
+ - Modelagem do Banco
  
- 
+ ![modelagem](https://user-images.githubusercontent.com/31168253/98177514-8b601b00-1ed9-11eb-9fe7-90b86ec15568.png)
+
  
  
  
