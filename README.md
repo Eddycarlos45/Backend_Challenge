@@ -9,16 +9,16 @@ Steps to run this project:
 END POINTS
 Rotas de `clientes`(/clientes):
 
- - GET:  '/' Consulta todos os clientes 
+ - GET:  '/' Consulta todos os clientes <br />
  exemplo: `http://localhost:3000/clientes`
  
-  - GET: '/search/:index', Consulta cliente pelo nome ou id
+  - GET: '/search/:index', Consulta cliente pelo nome ou id <br />
 exemplo: `http://localhost:3000/clientes/search/{fullname/id}`
 
-- GET: '/relation', Exibe relação de clientes e cidades
+- GET: '/relation', Exibe relação de clientes e cidades <br />
 exemplo: `http://localhost:3000/relation`
 
-- POST: '/', Adiciona um cliente novo
+- POST: '/', Adiciona um cliente novo <br />
 exemplo: `http://localhost:3000/clientes`
 
 JSON {
@@ -29,11 +29,11 @@ JSON {
 "city": 22
 }
 
- - PUT: '/:id', Atualiza os dados de um cliente
+ - PUT: '/:id', Atualiza os dados de um cliente <br />
  exemplo: `http://localhost:3000/clientes/{id}`
  JSON = POST/clientes
  
- - DELETE: '/:id',  Remove um cliente
+ - DELETE: '/:id',  Remove um cliente <br />
  exemplo: `http://localhost:3000/clientes/{id}`
 
 
