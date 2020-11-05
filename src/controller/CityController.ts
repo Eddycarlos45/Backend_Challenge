@@ -96,7 +96,6 @@ export const removeCity = async (request: Request, response: Response) => {
         const city = await getRepository(Cities).delete(id)
 
         if (city.affected === 1) {
-            const cityDeleted = await getRepository(Cities).findOne(id)
 
             await connection.queryResultCache.remove(["cities"]);
 

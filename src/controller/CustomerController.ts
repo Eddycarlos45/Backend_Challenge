@@ -110,8 +110,7 @@ export const removeCostumer = async (request: Request, response: Response) => {
         const costumer = await getRepository(Costumers).delete(id)
 
         if (costumer.affected === 1) {
-            const costumerDeleted = await getRepository(Costumers).findOne(id)
-
+            
             await connection.queryResultCache.remove(["costumers"]);
 
             return response.status(200).json({ message: 'Cliente com id:' + id + ' deletado com sucesso' })
