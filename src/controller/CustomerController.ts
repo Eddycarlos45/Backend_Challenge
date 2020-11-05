@@ -62,7 +62,9 @@ export const addCostumer = async (request: Request, response: Response) => {
 export const getCostumer = async (request: Request, response: Response) => {
     const { index } = request.params
     try {
-        const costumer = await getRepository(Costumers).query(`SELECT * FROM COSTUMERS WHERE id='${index}' OR fullname='${index}'`)
+        const costumer = await getRepository(Costumers).createQueryBuilder("costumers")
+            .where("costumers.id = :index OR costumers.fullname = :index", { index: index })
+            .getMany()
             .then(costumer => {
                 if (costumer.length === 0) {
                     return response.status(404).json({ message: "Cliente não encontrado(a)" })

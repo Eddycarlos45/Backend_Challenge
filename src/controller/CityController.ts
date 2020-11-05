@@ -34,7 +34,7 @@ export const addCity = async (request: Request, response: Response) => {
                     })
             } catch (err) {
                 return response.status(500).json({ error: err })
-            }
+            } 
         })
 }
 
